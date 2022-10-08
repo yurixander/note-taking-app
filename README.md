@@ -1,6 +1,6 @@
 # note-taking-app
 
-## Background (what you need to know)
+## Background/requirements (what you need to know)
 
 ### Backend:
 
