@@ -6,10 +6,11 @@
 
 1. [PHP](https://www.w3schools.com/php/default.asp) - Language used for writing the web API.
 2. [Databases (MySQL)](https://www.w3schools.com/sql/default.asp) - Used to store user authentication information.
-2. Web API. - Used to communicate with the frontend clients (people).
-3. [JSON](https://www.w3schools.com/js/js_json_intro.asp). - A specific notation used for web/HTTP request data transfer between the backend and frontend.
-4. HTTP Requests (Headers, Body), responses, and response codes. - The protocol used for used for data communication between the backend (server) and frontend (browser).
-5. [Postman](https://www.postman.com/) - Easy UI used to quickly test that your backend endpoints work as expected.
+3. [PHPMyAdmin](https://www.phpmyadmin.net/) - Used to manage the database.
+4. Web API. - Used to communicate with the frontend clients (people).
+5. [JSON](https://www.w3schools.com/js/js_json_intro.asp). - A specific notation used for web/HTTP request data transfer between the backend and frontend.
+6. HTTP Requests (Headers, Body), responses, and response codes. - The protocol used for used for data communication between the backend (server) and frontend (browser).
+7. [Postman](https://www.postman.com/) - Easy UI used to quickly test that your backend endpoints work as expected.
 
 ### Frontend:
 
