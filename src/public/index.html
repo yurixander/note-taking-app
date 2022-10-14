@@ -8,22 +8,37 @@
     <title>Note Taking App</title>
 </head>
 <style>
+    body{
+        /*----->HOW TO CENTER A DIV<-----*/
+
+        display:flex; /*horizontal-- youtube:css flexbox*/ 
+        flex-direction:column;/*vertical set up elements*/
+        align-items:center; /*center horizontally, To just center the text inside an element, use text-align: center*/
+        justify-content: center; /*center vertically*/
+        height:100vh; /*100% of the viewport height*/
+        overflow: hidden; /*hide the scroll bar*/
+        margin: 0;/*WHY?*/
+    }
+    .main{display: flex;}
     button {justify-content: space-between;}
+
 </style>
 
 <body>
     <!-- TODO: CREATE FRONTEND DEMO -->
-    <div>
+    <div class="main">
         <form action="POST">
             <label for="demo"></label>
-            <input type="text" id="box1" name="demo">
+            <input type="text" id="box1" name="demo" style="height: 5rem; width: 20rem">
         </form>
     </div>
-
+    <div class="goodButtons">
     <button input="button" id="b1" style="color:green">Post</button>
     <button input="button" id="b2" style="color: yellow">Update</button>
     <button input="button" id="b3" style="color:red">Delete</button>
+    </div>
     <br>
+
     <div id="sleeperDiv" style="visibility: hidden;"></div>
 
     <script>
