@@ -8,8 +8,9 @@
     <title>Note Taking App</title>
 </head>
 <style>
+    /*ELEMENTS CSS*/
     body{
-        /*----->HOW TO CENTER A DIV<-----*/
+        /*-------> HOW TO CENTER A DIV <-------*/
 
         display:flex; /*horizontal-- youtube:css flexbox or w3school*/ 
         flex-direction:column;/*vertical set up elements*/
@@ -19,9 +20,11 @@
         overflow: hidden; /*hide the scroll bar*/
         margin: 0;/*WHY?*/
     }
-    .main{display: flex;}
     button {justify-content: space-between;}
 
+    /*CLASSES CSS*/
+    .main {display: flex;}
+    .goodButtons{margin: 10px;}
 </style>
 
 <body>
@@ -33,9 +36,9 @@
         </form>
     </div>
     <div class="goodButtons">
-    <button input="button" id="b1" style="color:green">Post</button>
-    <button input="button" id="b2" style="color: yellow">Update</button>
-    <button input="button" id="b3" style="color:red">Delete</button>
+    <button input="button" id="b1" style="background-color:green; color:white">Post</button>
+    <button input="button" id="b2" style="background-color: blue; color:white">Update</button>
+    <button input="button" id="b3" style="background-color:red; color:white">Delete</button>
     </div>
     <br>
 
@@ -53,24 +56,33 @@
             const data = { username: content.value };
             var successFlag = false;
 
-            //send request to endpoint (api)
-            fetch('/api/notes',{
-                method: 'POST', // or 'PUT'
+            //QUESTIONS: 
+            //How to send data to the backend, using Javascript?
+            //Is fetch a asynchronous web api?
+            //What is a fetch promise, response, resolve, and reject?
+            //What is a callback function in javascript?
+            //BONUS QUESTIONS: 
+            //How does the server know what type of information is being sent to it?
+            //How do you parse a response from a fetch promise?
+            //Explain the system architecture of a web application from frontend to backend.
+            
+            fetch('/api/notes',{ //Sending request to endpoint(url/api)
+                method: 'POST', 
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json', /*Why we do this?*/
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify(data), /*What going on here?*/
             })
-                .then((response) => response.json())
-                .then((data) => {
+                .then((response) => response.json()) /*Whats .json?*/
+                .then((data) => { /*Why?*/
                     console.log('Success:', data);
                     successFlag = True;
-                    //create message to user
                 })
                 .catch((error) => {
                     console.error('Error:', error);
-                }).finally(() => { /*study*/
+                }).finally(() => { /*Why we use .finally?*/
                     if (successFlag) {
+                        /*What is HTML DOM JS?*/
                         console.log("success");
                         const hidden = document.getElementById('hiddenBox');
                         hidden.removeAttribute("style");
