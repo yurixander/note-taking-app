@@ -11,11 +11,11 @@
     body{
         /*----->HOW TO CENTER A DIV<-----*/
 
-        display:flex; /*horizontal-- youtube:css flexbox*/ 
+        display:flex; /*horizontal-- youtube:css flexbox or w3school*/ 
         flex-direction:column;/*vertical set up elements*/
         align-items:center; /*center horizontally, To just center the text inside an element, use text-align: center*/
         justify-content: center; /*center vertically*/
-        height:100vh; /*100% of the viewport height*/
+        height: 100vh; /*100% of the viewport height*/
         overflow: hidden; /*hide the scroll bar*/
         margin: 0;/*WHY?*/
     }
@@ -27,7 +27,7 @@
 <body>
     <!-- TODO: CREATE FRONTEND DEMO -->
     <div class="main">
-        <form action="POST">
+        <form method="POST" action="/api/notes">
             <label for="demo"></label>
             <input type="text" id="box1" name="demo" style="height: 5rem; width: 20rem">
         </form>
@@ -48,13 +48,13 @@
         let b1 = document.getElementById('b1');
         let b2 = document.getElementById('b2');
         let b3 = document.getElementById('b3');
-
+        
         function sendPost(e) {
             const data = { username: content.value };
-            var swt = false;
+            var successFlag = false;
 
             //send request to endpoint (api)
-            fetch('127.0.0.1:5500/src/index.php',{
+            fetch('/api/notes',{
                 method: 'POST', // or 'PUT'
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,25 +64,27 @@
                 .then((response) => response.json())
                 .then((data) => {
                     console.log('Success:', data);
-                    swt = True;
-                    //create messgae to user
+                    successFlag = True;
+                    //create message to user
                 })
                 .catch((error) => {
                     console.error('Error:', error);
+                }).finally(() => { /*study*/
+                    if (successFlag) {
+                        console.log("success");
+                        const hidden = document.getElementById('hiddenBox');
+                        hidden.removeAttribute("style");
+
+                        const newDiv = document.createElement("div");
+                        const newContent = document.createTextNode(content.value);
+
+                        newDiv.appendChild(newContent);
+                        document.body.insertBefore(newDiv, hidden);
+                    }
+                    else {
+                        console.log("fail");
+                    }
                 });
-            //populate post on bottom half of application 
-            if (swt) {
-                const hidden = docuemnt.getElementById('hiddenBox');
-                hidden.removeAttribute("style");
-
-                const newDiv = document.createElement("div");
-                const newContent = document.createTextNode(content.value);
-
-                newDiv.appendChild(newContent);
-                document.body.insertBefore(newDiv, hidden);
-            } else {
-                alert("Error not good")
-            }
             e.preventDefault();
         }
 
@@ -100,7 +102,5 @@
         b2.addEventListener('click', sendUpdate);
         b3.addEventListener('click', deletePost);
     </script>
-
 </body>
-
 </html>
