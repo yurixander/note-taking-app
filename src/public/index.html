@@ -11,7 +11,6 @@
     /*ELEMENTS CSS*/
     body{
         /*-------> HOW TO CENTER A DIV <-------*/
-
         display:flex; /*horizontal-- youtube:css flexbox or w3school*/ 
         flex-direction:column;/*vertical set up elements*/
         align-items:center; /*center horizontally, To just center the text inside an element, use text-align: center*/
@@ -36,12 +35,11 @@
         </form>
     </div>
     <div class="goodButtons">
-    <button input="button" id="b1" style="background-color:green; color:white">Post</button>
-    <button input="button" id="b2" style="background-color: blue; color:white">Update</button>
-    <button input="button" id="b3" style="background-color:red; color:white">Delete</button>
+        <button input="button" id="b1" style="background-color:green; color:white">Post</button>
+        <button input="button" id="b2" style="background-color: blue; color:white">Update</button>
+        <button input="button" id="b3" style="background-color:red; color:white">Delete</button>
     </div>
     <br>
-
     <div id="sleeperDiv" style="visibility: hidden;"></div>
 
     <script>
@@ -78,9 +76,9 @@
                     console.log('Success:', data);
                     successFlag = True;
                 })
-                .catch((error) => {
+                .catch((error) => {/*Is this similar to a try, catch, finally block?*/
                     console.error('Error:', error);
-                }).finally(() => { /*Why we use .finally?*/
+                }).finally(() => { /*Why we use '.finally' for this asynchronous function?*/
                     if (successFlag) {
                         /*What is HTML DOM JS?*/
                         console.log("success");
@@ -109,7 +107,8 @@
 
             e.preventDefault();
         }
-
+        //EVENT LISTENERS
+        //What is an event listener? Where does it come from? What is in the second argument of the parameter?
         b1.addEventListener('click', sendPost);
         b2.addEventListener('click', sendUpdate);
         b3.addEventListener('click', deletePost);
