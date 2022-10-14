@@ -1,20 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Note Taking App</title>
 </head>
+<style>
+    button {justify-content: space-between;}
+</style>
+
 <body>
-<!-- TODO: CREATE FRONTEND DEMO -->
+    <!-- TODO: CREATE FRONTEND DEMO -->
+    <div>
+        <form action="POST">
+            <label for="demo"></label>
+            <input type="text" id="box1" name="demo">
+        </form>
+    </div>
 
+    <button input="button" id="b1" style="color:green">Post</button>
+    <button input="button" id="b2" style="color: yellow">Update</button>
+    <button input="button" id="b3" style="color:red">Delete</button>
+    <br>
+    <div id="sleeperDiv" style="visibility: hidden;"></div>
 
+    <script>
+        console.log("testing...");
+        //<-- FRONTEND JS -->
+        let content = document.getElementById('box1');
+        let b1 = document.getElementById('b1');
+        let b2 = document.getElementById('b2');
+        let b3 = document.getElementById('b3');
 
+        function sendPost(e) {
+            const data = { username: content.value };
+            var swt = false;
 
-<script>
-   
-</script>
-    
+            //send request to endpoint (api)
+            fetch('127.0.0.1:5500/src/index.php',{
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('Success:', data);
+                    swt = True;
+                    //create messgae to user
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            //populate post on bottom half of application 
+            if (swt) {
+                const hidden = docuemnt.getElementById('hiddenBox');
+                hidden.removeAttribute("style");
+
+                const newDiv = document.createElement("div");
+                const newContent = document.createTextNode(content.value);
+
+                newDiv.appendChild(newContent);
+                document.body.insertBefore(newDiv, hidden);
+            } else {
+                alert("Error not good")
+            }
+            e.preventDefault();
+        }
+
+        function sendUpdate(e) {
+
+            e.preventDefault();
+        }
+
+        function deletePost(e) {
+
+            e.preventDefault();
+        }
+
+        b1.addEventListener('click', sendPost);
+        b2.addEventListener('click', sendUpdate);
+        b3.addEventListener('click', deletePost);
+    </script>
+
 </body>
+
 </html>

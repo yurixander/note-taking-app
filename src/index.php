@@ -1,6 +1,6 @@
 <?php
-
 require_once "./api/notes.php";
+
 
 $requestUri = $_SERVER["REQUEST_URI"]; //returns the uri in the browser
 $pathParts = explode("/", $requestUri); //splits the uri into an array of 3 elements
