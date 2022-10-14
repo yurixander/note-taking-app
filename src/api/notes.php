@@ -13,7 +13,7 @@ class NoteController extends BaseController
 {
   public function get()
   {
-    // Get all the notes from the database.
+    // Get all the notes from the database. Find this function in model/note folder
     $notes = Note::allRecords();
 
     // Send them as a response to the user.

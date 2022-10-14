@@ -20,4 +20,6 @@ class BaseController
     header("Content-Type: application/json");
     echo json_encode($data);
   }
+
+  static function allRecords()
 }
