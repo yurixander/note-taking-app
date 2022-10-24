@@ -22,4 +22,7 @@ class BaseController
   }
 
   static function allRecords()
+  {
+    // TODO: Implement.
+  }
 }

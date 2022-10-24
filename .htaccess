@@ -1,0 +1,7 @@
+Options +FollowSymLinks -MultiViews
+
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^api/(.*)$ http://localhost/index.php/$1 [NC]
+DirectoryIndex public/index.html

@@ -32,25 +32,43 @@ abstract class BaseModel
    */
   public $id;
 
-
   /**
    * Get a specific record from the database.
    */
   static function getRecord($id)
   {
     $connection = BaseModel::getOrSetConnection();
-    $query = $connection->prepare("SELECT * FROM notes WHERE id = :id", $id);
-    $result = $query->execute();
+    $query = $connection->prepare("SELECT * FROM notes WHERE id=:id");
 
-    // TODO: Return the result.
+    // NOTE: We use 'bindValue' instead of string interpolation (putting a
+    // variable inside a string) to fill up the 'id' in the query, and
+    // also to avoid possible SQL injection attacks.
+    $result = $query->execute(['id' => $id]);
+
+    // TODO: Process the returned result.
+    return $result;
   }
 
   static function deleteRecord($id)
   {
     $connection = BaseModel::getOrSetConnection();
-    $query = $connection->prepare("DELETE FROM notes WHERE id = :id", $id);
+    $query = $connection->prepare("DELETE FROM notes WHERE id=:id");
+    $query->bindValue("id", $id);
+    $result = $query->execute(['id' => $id]);
 
     // TODO: Return the result.
+    return $result;
+  }
+
+  static function updateRecord($id, $changes)
+  {
+    $connection = BaseModel::getOrSetConnection();
+    $query = $connection->prepare("UPDATE notes SET title=:title, content=:content WHERE id=:id");
+    $query->bindValue("id", $id);
+    $result = $query->execute($changes);
+
+    // TODO: Return the result.
+    return $result;
   }
 
   /**
@@ -60,10 +78,14 @@ abstract class BaseModel
   {
     $connection = BaseModel::getOrSetConnection();
     $query = $connection->prepare("SELECT * FROM notes");
+    $result = $query->execute();
+
+    // TODO: Handle result failure. This should be done for the other endpoints as well.
+    // if (!$result)
 
     // TODO: Return the result.
 
     // TODO: MySQL query to get all the data for this model. This is dummy data.
-    return [1, 2, 3];
+    return $query->fetchAll();
   }
 }

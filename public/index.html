@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Note Taking App</title>
+</head>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  .backdrop {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: radial-gradient(rgba(24, 116, 245, 0.8), rgba(0, 42, 102, 0.8));
+    backdrop-filter: blur(5px);
+  }
+
+  /*ELEMENTS CSS*/
+  body {
+    /*-------> HOW TO CENTER A DIV <-------*/
+    display: flex;
+    /*horizontal-- youtube:css flexbox or w3school*/
+    flex-direction: column;
+    /*vertical set up elements*/
+    align-items: center;
+    /*center horizontally, To just center the text inside an element, use text-align: center*/
+    justify-content: center;
+    /*center vertically*/
+    overflow: hidden;
+    /*hide the scroll bar*/
+    margin: 0;
+    /*WHY?*/
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcomsupport.fau.edu%2Ffile.php%2F3736MMXQMGBAYW373534603A88BPD%2Ffau-background-5.jpg&f=1&nofb=1&ipt=3a07df23e1fbba5d6b648e4fe16405baa972afbb433c3573daac93f3b0b71ec0&ipo=images");
+    background-position: center center;
+    backdrop-filter: blur(5px);
+    position: relative;
+    color: #fff;
+  }
+
+  button {
+    border-radius: 3px;
+    border: 1px solid #000;
+    border-bottom-width: 2px;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #fff;
+    transition: transform 0.05s ease;
+    transform-origin: center;
+  }
+
+  button:active {
+    transform: scale(0.9) translateY(5px);
+  }
+
+  button.green {
+    background-color: #2ed573;
+  }
+
+  button.purple {
+    /* background-color: #5352ed; */
+    background-color: #ff9f43;
+  }
+
+  button.red {
+    background-color: #ff4757;
+  }
+
+  /* CLASSES CSS */
+  .main {
+    display: flex;
+  }
+
+  .button-group {
+    margin: 10px;
+  }
+
+  #notes-list {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    max-height: 10rem;
+  }
+
+  #input {
+    width: 100%;
+    max-width: 20rem;
+    height: 5rem;
+    max-height: 8rem;
+    min-height: 3ch;
+    min-width: 20rem;
+    border: 2px solid #000;
+    border-bottom-width: 4px;
+    border-radius: 4px;
+    font-family: inherit;
+    padding: 10px;
+  }
+
+  .note {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #000;
+    border-bottom-width: 2px;
+    box-shadow: 0 0 32px #003066;
+    padding: 15px;
+    padding-top: 5px;
+    position: relative;
+    transition: transform 0.2s ease;
+    transform-origin: center;
+    text-align: left;
+    background: rgba(0, 48, 102, 0.5);
+    backdrop-filter: blur(5px);
+  }
+
+  .note:hover {
+    transform: scale(1.1);
+  }
+
+  .note:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .note>.note-title {
+    text-transform: uppercase;
+    font-size: 70%;
+    opacity: 0.5;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .fau-logo {
+    max-width: 15rem;
+    margin-bottom: 1rem;
+    user-select: none;
+  }
+
+  .content-wrapper {
+    z-index: 1;
+    text-align: center;
+    max-width: 400px;
+  }
+</style>
+
+<body>
+  <div class="backdrop"></div>
+  <div class="content-wrapper">
+    <img class="fau-logo" draggable="false"
+      src="https://upload.wikimedia.org/wikipedia/en/thumb/4/40/Florida_Atlantic_Owls_logo.svg/1200px-Florida_Atlantic_Owls_logo.svg.png" />
+    <!-- TODO: CREATE FRONTEND DEMO -->
+    <div class="main">
+      <label for="demo"></label>
+      <textarea placeholder="Type your note's content here..." autofocus id="input" name="demo"></textarea>
+    </div>
+    <div class="button-group">
+      <button class="green" input="button" id="get">Fetch all notes</button>
+      <button class="green" input="button" id="post">Post</button>
+      <button class="purple" input="button" id="update">Update</button>
+      <button class="red" input="button" id="delete">Delete</button>
+    </div>
+    <br />
+    <div id="notes-list"></div>
+  </div>
+
+  <script>
+    //<-- FRONTEND JS -->
+    let $input = document.getElementById("input");
+    let $output = document.getElementById("output")
+    let $getBtn = document.getElementById("get")
+    let $postBtn = document.getElementById("post");
+    let $updateBtn = document.getElementById("update");
+    let $deleteBtn = document.getElementById("delete");
+    let $notesList = document.getElementById("notes-list")
+
+    function getAll(e) {
+      fetch("api/notes")
+        .then(response => response.json())
+        .then(response => {
+          $notesList.innerHTML = ""
+
+          if (response.length === 0)
+            $notesList.innerHTML = "There are no notes stored."
+
+          for (let note of response) {
+            // Create a corresponding HTML element for the note's information (title & content).
+            let $noteWrapper = document.createElement("div")
+            let $noteTitle = document.createElement("strong")
+            let $noteContent = document.createElement("p")
+            let $deleteBtn = document.createElement("button")
+
+            $deleteBtn.addEventListener("click", () => {
+              // TODO: Implement. Send a request to the DELETE endpoint for this specific note ID.
+            })
+
+            $deleteBtn.classList.add("delete-btn")
+            $noteWrapper.classList.add("note")
+            $noteTitle.classList.add("note-title")
+            $noteContent.classList.add("note-content")
+
+            // Populate the HTML element's content with the note's information.
+            $noteTitle.innerHTML = note.title
+            $noteContent.innerHTML = note.content
+
+            // Add the note's information inside a wrapper div.
+            $noteWrapper.appendChild($noteTitle)
+            $noteWrapper.appendChild($noteContent)
+
+            // Add the note div to the list.
+            $notesList.appendChild($noteWrapper)
+          }
+        })
+
+      e.preventDefault();
+    }
+
+    function sendPost(e) {
+      const data = { username: $input.value };
+      let successFlag = false;
+
+      // QUESTIONS: 
+      // How to send data to the backend, using Javascript?
+      // Is fetch a asynchronous web api?
+      // What is a fetch promise, response, resolve, and reject?
+      // What is a callback function in javascript?
+      // BONUS QUESTIONS: 
+      // How does the server know what type of information is being sent to it?
+      // How do you parse a response from a fetch promise?
+      // Explain the system architecture of a web application from frontend to backend.
+
+      fetch("/api/notes", { // Sending request to endpoint (url/api).
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Why we do this?
+        },
+        body: JSON.stringify(data) // What going on here?
+      })
+        .then((response) => response.json()) // Whats .json?
+        .then((data) => { // Why?
+          console.log("Success:", data);
+          successFlag = true;
+        })
+        .catch((error) => console.error("Error:", error))
+        .finally(() => { // Why we use ".finally" for this asynchronous function?
+          if (successFlag) {
+            // What is HTML DOM JS?
+            const hidden = document.getElementById("hiddenBox");
+            const newDiv = document.createElement("div");
+            const newContent = document.createTextNode($input.value);
+
+            hidden.removeAttribute("style");
+            newDiv.appendChild(newContent);
+            document.body.insertBefore(newDiv, hidden);
+          }
+          else
+            console.log("fail");
+        });
+
+      e.preventDefault();
+    }
+
+    function sendUpdate(e) {
+      // TODO: Implement.
+
+      e.preventDefault();
+    }
+
+    function deletePost(e) {
+      // TODO: Implement.
+
+      e.preventDefault();
+    }
+
+    // EVENT LISTENERS:
+    // What is an event listener? Where does it come from?
+    // What is in the second argument of the parameter?
+    $getBtn.addEventListener("click", getAll);
+    $postBtn.addEventListener("click", sendPost);
+    $updateBtn.addEventListener("click", sendUpdate);
+    $deleteBtn.addEventListener("click", deletePost);
+  </script>
+</body>
+
+</html>
