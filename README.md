@@ -1,5 +1,24 @@
 # note-taking-app
 
+## Basic setup & installation
+
+1. Download & install [XAMPP](https://www.apachefriends.org/download.html). This tool includes PHP, MySQL, and PhpMyAdmin. Proceed with default options.
+2. Delete the contents of the `C:/xampp/htdocs` folder.
+3. Open a terminal/command prompt inside the `C:/xampp/htdocs` folder.
+4. Clone this repository using Git, inside the `C:/xampp/htdocs` folder:
+
+```bash
+git clone https://github.com/yurixander/note-taking-app.git .
+```
+
+The `index.php` file should be directly under the `htdocs` folder. In other words: `C:/xampp/htdocs/index.php`.
+
+5. Open the XAMPP Control Panel application. If you're using Windows, simply open your Start menu and search for it.
+6. Start the Apache and MySQL services, by clicking their "Start" buttons respectively.
+7. Now you should be able to navigate to http://localhost/ in your machine, and the Note Taking App's frontend should come up. If not, then you may have done one of the steps incorrectly, or likely misplaced the files. Do not hesitate to ask for help on the Discord server!
+8. You can begin development by opening the `C:/xampp/htdocs` folder in your IDE/editor of choice.
+9. Inspect the files and source code to familiarize yourself with the project's structure. Any `.php` file is part of the backend. The `public` folder contains the frontend file(s).
+
 ## Background/requirements (what you need to know)
 
 ### Backend:
